@@ -33,11 +33,11 @@ public class Car {
     //För att se vad om den är bokad eller inte
     private boolean bookedStatus = false;
 
-    //Skriv in vad bokning klass heter sen
-    //@OneToOne     -       Kan vara manyToOne om man vill att flera ska kunna boka samma bil
-    //@JsonIgnoreProperties("customer")
-    //@JoinColumn(referencedColumnName = "id")
-    //private Booking bookedInfo
+    //Tar in bokning objektet
+    @OneToOne     //-       Kan vara manyToOne om man vill att flera ska kunna boka samma bil
+    @JsonIgnoreProperties("customer")
+    @JoinColumn(referencedColumnName = "id")
+    private Booking bookedInfo;
 
 
     //Konstruktorer
@@ -53,6 +53,15 @@ public class Car {
         this.bookedStatus = bookedStatus;
     }
 
+    public Car(int id, int pirecePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus, Booking bookedInfo) {
+        this.id = id;
+        this.pirecePerDay = pirecePerDay;
+        this.factory = factory;
+        this.modell = modell;
+        this.registrationNumber = registrationNumber;
+        this.bookedStatus = bookedStatus;
+        this.bookedInfo = bookedInfo;
+    }
 
     //Getters and Setters
     public int getId() {
@@ -101,5 +110,17 @@ public class Car {
 
     public void setBookedStatus(boolean bookedStatus) {
         this.bookedStatus = bookedStatus;
+    }
+
+    public Booking getBookedInfo() {
+        bookedStatus = true;
+        return bookedInfo;
+    }
+
+    public void setBookedInfo(Booking bookedInfo) {
+        if (bookedInfo == null){
+            bookedStatus = false;
+        }
+        this.bookedInfo = bookedInfo;
     }
 }
