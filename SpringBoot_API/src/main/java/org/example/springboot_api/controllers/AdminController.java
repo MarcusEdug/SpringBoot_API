@@ -5,6 +5,7 @@ import org.example.springboot_api.entities.Car;
 import org.example.springboot_api.entities.Customer;
 import org.example.springboot_api.services.BookingService;
 import org.example.springboot_api.services.CarService;
+import org.example.springboot_api.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +24,12 @@ public class AdminController {
 
     @Autowired
     private BookingService bookingService;
-/*
+
     @Autowired
     private CustomerService customerService;
 
     //Customers
-
+/*
     @GetMapping("/customers")
     @ResponseBody
     public List<Customer> getAllCustomer(){
