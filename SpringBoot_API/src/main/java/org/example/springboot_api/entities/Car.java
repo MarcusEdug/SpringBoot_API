@@ -36,7 +36,7 @@ public class Car {
     //Tar in bokning objektet
     @OneToOne     //-       Kan vara manyToOne om man vill att flera ska kunna boka samma bil
     @JsonIgnoreProperties("customer")
-    @JoinColumn(referencedColumnName = "id")
+    @JoinColumn(referencedColumnName = "bookingId")
     private Booking bookedInfo;
 
 
