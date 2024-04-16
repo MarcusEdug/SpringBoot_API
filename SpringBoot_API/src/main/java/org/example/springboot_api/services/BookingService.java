@@ -2,6 +2,7 @@ package org.example.springboot_api.services;
 
 import org.example.springboot_api.entities.Booking;
 import org.example.springboot_api.entities.Car;
+import org.example.springboot_api.entities.Customer;
 import org.example.springboot_api.repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
