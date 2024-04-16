@@ -40,11 +40,12 @@ public class BookingService implements BookingServiceInterface {
     @Override
     public List<Booking> getBookingsByCustomer(Customer customer) {
         if (customer != null) {
-            return bookingRepository.findByCustomersContaining(customer);
+           // return bookingRepository.findByCustomersContaining(customer);
             //Todo Skapa en funktion som gör att man kan kolla om datumet är gällande för bokningen
         } else {
             return Collections.emptyList(); //Returnerar en tom lista om kund = null
         }
+        return null;
     }
 
     //Kund: Se tidigare bokningar.

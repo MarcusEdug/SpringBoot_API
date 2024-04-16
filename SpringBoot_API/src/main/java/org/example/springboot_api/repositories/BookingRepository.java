@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
-    List<Booking> findByCustomersContaining(Customer customer);
+    //List<Booking> findByCustomersContaining(Customer customer);
 }

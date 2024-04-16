@@ -24,7 +24,7 @@ public class Customer {
     private String phone;
 
     @JsonIgnoreProperties("customer")
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customers", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Booking> bookingList;
 
 

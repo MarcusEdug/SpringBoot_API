@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1")
 public class AdminController {
 
@@ -29,106 +29,66 @@ public class AdminController {
     private CustomerService customerService;
 
     //Customers
-/*
+
     @GetMapping("/customers")
-    @ResponseBody
-    public List<Customer> getAllCustomer(){
-        return customerService.getAllCustomer();
+    public List<Customer> fetchAllCustomer(){
+        return customerService.fetchAllCustomers();
     }
 
     @PostMapping("/addcustomer")
-    @ResponseBody
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
         return new ResponseEntity<>(customerService.addCustomer(customer), HttpStatus.CREATED);
     }
 
     @PutMapping("/updatecustomer")
-    @ResponseBody
-    public ResponseEntity<Customer> updateCustomer(@RequestParam("id") int id, @RequestBody Customer customer){
-        return ResponseEntity.ok(carService.updateCustomer(id, customer));
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer existingCustomer){
+        int id = existingCustomer.getId();
+        return ResponseEntity.ok(customerService.updateCustomer(id, existingCustomer));
     }
 
     @DeleteMapping("/deletecustomer")
-    @ResponseBody
-    public ResponseEntity<String> deleteCustomer(@RequestParam("id") int id){
-        customerService.deteleCustomer(id);
+    public ResponseEntity<String> deleteCustomer(@RequestBody Customer existingCustomer){
+        int id = existingCustomer.getId();
+        customerService.deleteCustomerById(id);
         return new ResponseEntity<>("Customer deleted", HttpStatus.OK);
     }
 
-
- */
     //Cars
 
     @PostMapping("/addcar")
-    @ResponseBody
     public ResponseEntity<Car> addCar(@RequestBody Car car){
         return new ResponseEntity<>(carService.addCar(car), HttpStatus.CREATED);
     }
 
     @GetMapping("/allcars")
-    @ResponseBody
-    public List<Car> getAllCar(){
-        return carService.getAllCars();
+    public List<Car> fetchAllCar(){
+        return carService.fetchAllCars();
     }
 
     @PutMapping("/updatecar")
-    @ResponseBody
-    public ResponseEntity<Car> updateCar(@RequestBody Map<String, Object> existingCar){
-        int id = (int) existingCar.get("id");
-
-        Car updatedCar = new Car();
-        updatedCar.setId(id);
-
-        if (existingCar.get("pireceperday") != null) {
-            int pirecePerDay = (int) existingCar.get("pireceperday");
-            updatedCar.setPirecePerDay(pirecePerDay);
-        }
-
-        if (existingCar.get("factory") != null) {
-            updatedCar.setFactory((String) existingCar.get("factory"));
-        }
-
-        if (existingCar.get("modell") != null) {
-            updatedCar.setModell((String) existingCar.get("modell"));
-        }
-
-        if (existingCar.get("registrationnumber") != null) {
-            updatedCar.setRegistrationNumber((String) existingCar.get("registrationnumber"));
-        }
-
-        if (existingCar.get("bookedstatus") != null) {
-            updatedCar.setBookedStatus((Boolean) existingCar.get("bookedstatus"));
-        }
-
-        if (existingCar.get("bookedinfo") != null) {
-            updatedCar.setBookedInfo((Booking) existingCar.get("bookedinfo"));
-        }
-        return ResponseEntity.ok(carService.updateCar(id, updatedCar));
+    public ResponseEntity<Car> updateCar(@RequestBody Car existingCar){
+        int id = existingCar.getId();
+        return ResponseEntity.ok(carService.updateCar(id, existingCar));
     }
 
     @DeleteMapping("/deletecar")
-    @ResponseBody
-    public ResponseEntity<String> deleteCar(@RequestBody Map<String, Object> existingCar) {
-        int id = (int) existingCar.get("id");
-
+    public ResponseEntity<String> deleteCar(@RequestBody Car existingCar) {
+        int id = existingCar.getId();
         carService.deleteCar(id);
-
         return new ResponseEntity<>("Car deleted", HttpStatus.OK);
     }
 
     //Orders
 
     @GetMapping("/orders")
-    @ResponseBody
-    public List<Booking> getAllOrders(){
-        return bookingService.getAllBookings();
+    public List<Booking> fetchAllBookings(){
+        return bookingService.fetchAllBookings();
     }
 
     @DeleteMapping("/deleteorder")
-    @ResponseBody
-    public ResponseEntity<String> deleteOrder(@RequestParam("id") int id){
+    public ResponseEntity<String> deleteOrder(@RequestBody Booking existingBooking){
+        int id = existingBooking.getBookingId();
         bookingService.deleteBooking(id);
         return new ResponseEntity<>("Order deletet", HttpStatus.OK);
     }
-
 }

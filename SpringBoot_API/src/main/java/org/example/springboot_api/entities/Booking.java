@@ -17,7 +17,7 @@ public class Booking {
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     private Customer customers;
 
 

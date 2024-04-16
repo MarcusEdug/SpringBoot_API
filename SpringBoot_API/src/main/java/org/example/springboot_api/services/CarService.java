@@ -22,7 +22,7 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public List<Car> getAllCars() {
+    public List<Car> fetchAllCars() {
         return carRepository.findAll();
     }
 
