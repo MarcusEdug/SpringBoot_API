@@ -18,16 +18,17 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private List<Customer> customers;
+    private Customer customers;
 
-    public Booking() {
 
-    }
-
-    public Booking(LocalDate dateOfBooking, Car car, List<Customer> customers) {
+    public Booking(LocalDate dateOfBooking, Car car, Customer customers) {
         this.dateOfBooking = dateOfBooking;
         this.car = car;
         this.customers = customers;
+    }
+
+    public Booking() {
+
     }
 
     public int getBookingId() {
@@ -54,11 +55,11 @@ public class Booking {
         this.car = car;
     }
 
-    public List<Customer> getCustomers() {
+    public Customer getCustomers() {
         return customers;
     }
 
-    public void setCustomers(List<Customer> customers) {
+    public void setCustomers(Customer customers) {
         this.customers = customers;
     }
 }
