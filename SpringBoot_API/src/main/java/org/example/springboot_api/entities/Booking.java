@@ -3,6 +3,7 @@ package org.example.springboot_api.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Booking {
@@ -11,24 +12,23 @@ public class Booking {
     private int bookingId;
     private LocalDate dateOfBooking;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    private List<Customer> customers;
 
     public Booking() {
 
     }
 
-    public Booking(LocalDate dateOfBooking, Car car, Customer customer) {
+    public Booking(LocalDate dateOfBooking, Car car, List<Customer> customers) {
         this.dateOfBooking = dateOfBooking;
         this.car = car;
-        this.customer = customer;
+        this.customers = customers;
     }
-
 
     public int getBookingId() {
         return bookingId;
@@ -54,11 +54,11 @@ public class Booking {
         this.car = car;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public List<Customer> getCustomers() {
+        return customers;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 }

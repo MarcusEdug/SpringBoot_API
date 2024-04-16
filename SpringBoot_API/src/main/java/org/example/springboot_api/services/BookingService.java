@@ -16,38 +16,44 @@ public class BookingService implements BookingServiceInterface {
     @Autowired
     private BookingRepository bookingRepository;
 
+    //Kund: Skapa en bokning av bil
     @Override
     public Booking createBooking(LocalDate dateOfBooking, Car car, Customer customer) {
-        return null;
+        Booking booking = new Booking(dateOfBooking,car,customer);
+        return bookingRepository.save(booking);
     }
 
+    //Kund: Avboka
     @Override
     public void cancelBooking(int bookingId) {
-
+        bookingRepository.deleteById(bookingId);
     }
 
+    //Admin: Se alla bokningar
     @Override
     public List<Booking> getAllBookings() {
-        return List.of();
+        return bookingRepository.findAll();
     }
 
     @Override
     public List<Booking> getBookingsByCustomer(Customer customer) {
-        return List.of();
+        return bookingRepository.findByCustomerContaining(customer); //Behövs åtkomst till Customer-klassen för att metoden ska funka (tror jag)
     }
 
     @Override
     public List<Booking> getBookingsByCar(Car car) {
-        return List.of();
+        return bookingRepository.findByCar(car); //Behövs åtkomst till Car-klassen för att metoden ska funka
     }
 
+    //Kund: Se tidigare bokningar. Behövs läggas till funktion för att se tidigare och aktiva bokningar
     @Override
     public List<Booking> getPrevoiusBookingsByCustomer(Customer customer) {
+        //Här behövs det läggas till funktionalitet för att hitta tidigare bokningar från en kund
         return List.of();
     }
-
+    //Admin: Ta bort en bokning
     @Override
     public void deleteBooking(int bookingId) {
-
+        bookingRepository.deleteById(bookingId);
     }
 }
