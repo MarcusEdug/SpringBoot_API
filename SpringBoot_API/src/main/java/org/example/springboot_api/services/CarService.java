@@ -2,6 +2,7 @@ package org.example.springboot_api.services;
 
 
 import org.example.springboot_api.entities.Car;
+import org.example.springboot_api.exceptions.ResourceNotFoundException;
 import org.example.springboot_api.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
