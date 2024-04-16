@@ -11,9 +11,8 @@ public interface BookingServiceInterface {
 
     Booking createBooking(LocalDate dateOfBooking, Car car, Customer customer);
     void cancelBooking(int bookingId);
-    List<Booking> getAllBookings();
+    List<Booking> fetchAllBookings();
     List<Booking> getBookingsByCustomer(Customer customer);
-    List<Booking> getBookingsByCar(Car car);
     List<Booking> getPrevoiusBookingsByCustomer(Customer customer);
     void deleteBooking(int bookingId);
 }

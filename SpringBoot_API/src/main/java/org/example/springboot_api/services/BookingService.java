@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class BookingService implements BookingServiceInterface {
     //Kund: Skapa en bokning av bil
     @Override
     public Booking createBooking(LocalDate dateOfBooking, Car car, Customer customer) {
-        Booking booking = new Booking(dateOfBooking,car,customer);
+        Booking booking = new Booking(dateOfBooking,car, customer);
         return bookingRepository.save(booking);
     }
 
@@ -31,25 +32,26 @@ public class BookingService implements BookingServiceInterface {
 
     //Admin: Se alla bokningar
     @Override
-    public List<Booking> getAllBookings() {
+    public List<Booking> fetchAllBookings() {
         return bookingRepository.findAll();
     }
 
+    //Kund: Se aktiva bokningar
     @Override
     public List<Booking> getBookingsByCustomer(Customer customer) {
-        return bookingRepository.findByCustomerContaining(customer); //Behövs åtkomst till Customer-klassen för att metoden ska funka (tror jag)
+        if (customer != null) {
+            return bookingRepository.findByCustomersContaining(customer);
+            //Todo Skapa en funktion som gör att man kan kolla om datumet är gällande för bokningen
+        } else {
+            return Collections.emptyList(); //Returnerar en tom lista om kund = null
+        }
     }
 
-    @Override
-    public List<Booking> getBookingsByCar(Car car) {
-        return bookingRepository.findByCar(car); //Behövs åtkomst till Car-klassen för att metoden ska funka
-    }
-
-    //Kund: Se tidigare bokningar. Behövs läggas till funktion för att se tidigare och aktiva bokningar
+    //Kund: Se tidigare bokningar.
     @Override
     public List<Booking> getPrevoiusBookingsByCustomer(Customer customer) {
-        //Här behövs det läggas till funktionalitet för att hitta tidigare bokningar från en kund
-        return List.of();
+       //Todo Skapa en funktion för att kolla om bokningen är förbrukad med hjälp av datum
+        return null;
     }
     //Admin: Ta bort en bokning
     @Override
