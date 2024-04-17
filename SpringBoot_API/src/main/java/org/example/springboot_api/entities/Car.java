@@ -1,5 +1,6 @@
 package org.example.springboot_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -15,7 +16,7 @@ import jakarta.persistence.*;
 public class Car {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private int car_id;
 
     @Column (length = 10, nullable = false)
     private int pirecePerDay;
@@ -34,8 +35,8 @@ public class Car {
     private boolean bookedStatus = false;
 
     //Tar in bokning objektet
-    @OneToOne     //-       Kan vara manyToOne om man vill att flera ska kunna boka samma bil
-    @JsonIgnoreProperties("customer")
+    @JsonIgnore
+    @OneToOne(mappedBy = "car")     //-       Kan vara manyToOne om man vill att flera ska kunna boka samma bil
     @JoinColumn(referencedColumnName = "bookingId")
     private Booking bookedInfo;
 
@@ -45,7 +46,7 @@ public class Car {
     }
 
     public Car(int id, int pirecePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus) {
-        this.id = id;
+        this.car_id = id;
         this.pirecePerDay = pirecePerDay;
         this.factory = factory;
         this.modell = modell;
@@ -54,7 +55,7 @@ public class Car {
     }
 
     public Car(int id, int pirecePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus, Booking bookedInfo) {
-        this.id = id;
+        this.car_id = id;
         this.pirecePerDay = pirecePerDay;
         this.factory = factory;
         this.modell = modell;
@@ -64,12 +65,12 @@ public class Car {
     }
 
     //Getters and Setters
-    public int getId() {
-        return id;
+    public int getCar_id() {
+        return car_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCar_id(int id) {
+        this.car_id = id;
     }
 
     public int getPirecePerDay() {

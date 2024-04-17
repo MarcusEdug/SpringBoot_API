@@ -1,28 +1,34 @@
 package org.example.springboot_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookingId;
-    private LocalDate dateOfBooking;
+    private LocalDate startDateOfBooking;
+    private LocalDate endDateOfBooking;
 
     @OneToOne
     @JoinColumn(name = "car_id", nullable = false)
+    @JsonManagedReference
+    @JsonIgnoreProperties("booking")
     private Car car;
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
+    @JsonIgnoreProperties("booking")
     private Customer customers;
+    private String status;
 
 
     public Booking(LocalDate dateOfBooking, Car car, Customer customers) {
-        this.dateOfBooking = dateOfBooking;
+        this.startDateOfBooking = dateOfBooking;
         this.car = car;
         this.customers = customers;
     }
@@ -39,12 +45,12 @@ public class Booking {
         this.bookingId = bookingId;
     }
 
-    public LocalDate getDateOfBooking() {
-        return dateOfBooking;
+    public LocalDate getStartDateOfBooking() {
+        return startDateOfBooking;
     }
 
-    public void setDateOfBooking(LocalDate dateOfBooking) {
-        this.dateOfBooking = dateOfBooking;
+    public void setStartDateOfBooking(LocalDate dateOfBooking) {
+        this.startDateOfBooking = dateOfBooking;
     }
 
     public Car getCar() {
@@ -61,5 +67,21 @@ public class Booking {
 
     public void setCustomers(Customer customers) {
         this.customers = customers;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDate getEndDateOfBooking() {
+        return endDateOfBooking;
+    }
+
+    public void setEndDateOfBooking(LocalDate endDateOfBooking) {
+        this.endDateOfBooking = endDateOfBooking;
     }
 }
