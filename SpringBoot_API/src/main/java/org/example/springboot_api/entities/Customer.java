@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -24,7 +26,8 @@ public class Customer {
     @Column(length = 15)
     private String phone;
 
-    @JsonIgnoreProperties("customers")
+    @JsonIgnoreProperties("bookingList")
+    @JsonIgnore
     @OneToMany(mappedBy = "customers", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Booking> bookingList;
 

@@ -3,7 +3,9 @@ package org.example.springboot_api.services;
 import org.example.springboot_api.entities.Booking;
 import org.example.springboot_api.entities.Car;
 import org.example.springboot_api.entities.Customer;
+import org.example.springboot_api.exceptions.ResourceNotFoundException;
 import org.example.springboot_api.repositories.BookingRepository;
+import org.example.springboot_api.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class BookingService implements BookingServiceInterface {
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     //Kund: Skapa en bokning av bil
     @Override
@@ -40,8 +45,9 @@ public class BookingService implements BookingServiceInterface {
     //Kund: Se aktiva/tidigare bokningar
     @Override
     public List<Booking> getBookingsByCustomer(Customer customer) {
-        if (customer != null) {
-            List<Booking> listOfBookings = customer.getBookingList();
+        Customer existingCustomer = customerRepository.findById(customer.getId()).orElseThrow(() -> new ResourceNotFoundException("Car", "id", customer.getId()));
+        if (existingCustomer != null) {
+            List<Booking> listOfBookings = existingCustomer.getBookingList();
             Collections.sort(listOfBookings, new Comparator<Booking>() {
                 @Override
                 public int compare(Booking o1, Booking o2) {
@@ -54,7 +60,7 @@ public class BookingService implements BookingServiceInterface {
                 }
             });
 
-            return customer.getBookingList();
+            return existingCustomer.getBookingList();
 
 
         } else {

@@ -19,13 +19,13 @@ public class Car {
     private int car_id;
 
     @Column (length = 10, nullable = false)
-    private int pirecePerDay;
+    private int pricePerDay;
 
     @Column(length = 30, nullable = false)
     private String factory;
 
     @Column(length = 30, nullable = false)
-    private String modell;
+    private String model;
 
     @Column(length = 15, nullable = false)
     private String registrationNumber;
@@ -35,9 +35,10 @@ public class Car {
     private boolean bookedStatus = false;
 
     //Tar in bokning objektet
+    @OneToOne (mappedBy = "car", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "car_id", nullable = false)
+    @JsonIgnoreProperties("customers")
     @JsonIgnore
-    @OneToOne(mappedBy = "car")     //-       Kan vara manyToOne om man vill att flera ska kunna boka samma bil
-    @JoinColumn(referencedColumnName = "bookingId")
     private Booking bookedInfo;
 
 
@@ -47,18 +48,18 @@ public class Car {
 
     public Car(int id, int pirecePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus) {
         this.car_id = id;
-        this.pirecePerDay = pirecePerDay;
+        this.pricePerDay = pirecePerDay;
         this.factory = factory;
-        this.modell = modell;
+        this.model = modell;
         this.registrationNumber = registrationNumber;
         this.bookedStatus = bookedStatus;
     }
 
     public Car(int id, int pirecePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus, Booking bookedInfo) {
         this.car_id = id;
-        this.pirecePerDay = pirecePerDay;
+        this.pricePerDay = pirecePerDay;
         this.factory = factory;
-        this.modell = modell;
+        this.model = modell;
         this.registrationNumber = registrationNumber;
         this.bookedStatus = bookedStatus;
         this.bookedInfo = bookedInfo;
@@ -73,12 +74,12 @@ public class Car {
         this.car_id = id;
     }
 
-    public int getPirecePerDay() {
-        return pirecePerDay;
+    public int getPricePerDay() {
+        return pricePerDay;
     }
 
-    public void setPirecePerDay(int pirecePerDay) {
-        this.pirecePerDay = pirecePerDay;
+    public void setPricePerDay(int pirecePerDay) {
+        this.pricePerDay = pirecePerDay;
     }
 
     public String getFactory() {
@@ -89,12 +90,12 @@ public class Car {
         this.factory = factory;
     }
 
-    public String getModell() {
-        return modell;
+    public String getModel() {
+        return model;
     }
 
-    public void setModell(String modell) {
-        this.modell = modell;
+    public void setModel(String modell) {
+        this.model = modell;
     }
 
     public String getRegistrationNumber() {

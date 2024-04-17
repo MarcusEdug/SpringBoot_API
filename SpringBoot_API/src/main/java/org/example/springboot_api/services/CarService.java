@@ -28,15 +28,15 @@ public class CarService implements CarServiceInterface {
 
     @Override
     public Car updateCar(Car car) {
-        Car existingCar = carRepository.findById(car.getId()).orElseThrow(() -> new ResourceNotFoundException("Car", "id", car.getId()));
-        if(car.getPirecePerDay() != 0){
-            existingCar.setPirecePerDay(car.getPirecePerDay());
+        Car existingCar = carRepository.findById(car.getCar_id()).orElseThrow(() -> new ResourceNotFoundException("Car", "id", car.getCar_id()));
+        if(car.getPricePerDay() != 0){
+            existingCar.setPricePerDay(car.getPricePerDay());
         }
         if(car.getFactory() != null){
             existingCar.setFactory(car.getFactory());
         }
-        if(car.getModell() != null){
-            existingCar.setModell(car.getModell());
+        if(car.getModel() != null){
+            existingCar.setModel(car.getModel());
         }
         if(car.getRegistrationNumber() != null){
             existingCar.setRegistrationNumber(car.getRegistrationNumber());
