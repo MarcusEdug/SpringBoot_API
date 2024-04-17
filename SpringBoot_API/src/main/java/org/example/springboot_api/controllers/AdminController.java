@@ -9,11 +9,9 @@ import org.example.springboot_api.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -67,13 +65,13 @@ public class AdminController {
 
     @PutMapping("/updatecar")
     public ResponseEntity<Car> updateCar(@RequestBody Car existingCar){
-        int id = existingCar.getId();
+        int id = existingCar.getCar_id();
         return ResponseEntity.ok(carService.updateCar(id, existingCar));
     }
 
     @DeleteMapping("/deletecar")
     public ResponseEntity<String> deleteCar(@RequestBody Car existingCar) {
-        int id = existingCar.getId();
+        int id = existingCar.getCar_id();
         carService.deleteCar(id);
         return new ResponseEntity<>("Car deleted", HttpStatus.OK);
     }

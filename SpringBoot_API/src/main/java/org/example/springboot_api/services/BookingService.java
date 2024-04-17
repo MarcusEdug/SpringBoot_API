@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -19,8 +20,8 @@ public class BookingService implements BookingServiceInterface {
 
     //Kund: Skapa en bokning av bil
     @Override
-    public Booking createBooking(LocalDate dateOfBooking, Car car, Customer customer) {
-        Booking booking = new Booking(dateOfBooking,car, customer);
+    public Booking createBooking(Booking booking) {
+        booking.setStatus("Active");
         return bookingRepository.save(booking);
     }
 
@@ -36,24 +37,32 @@ public class BookingService implements BookingServiceInterface {
         return bookingRepository.findAll();
     }
 
-    //Kund: Se aktiva bokningar
+    //Kund: Se aktiva/tidigare bokningar
     @Override
     public List<Booking> getBookingsByCustomer(Customer customer) {
         if (customer != null) {
-           // return bookingRepository.findByCustomersContaining(customer);
-            //Todo Skapa en funktion som gör att man kan kolla om datumet är gällande för bokningen
+            List<Booking> listOfBookings = customer.getBookingList();
+            Collections.sort(listOfBookings, new Comparator<Booking>() {
+                @Override
+                public int compare(Booking o1, Booking o2) {
+                    int startDateComparison = o1.getStartDateOfBooking().compareTo(o2.getStartDateOfBooking());
+
+                    if(startDateComparison == 0) {
+                        return o1.getEndDateOfBooking().compareTo(o2.getEndDateOfBooking());
+                    }
+                    return startDateComparison;
+                }
+            });
+
+            return customer.getBookingList();
+
+
         } else {
             return Collections.emptyList(); //Returnerar en tom lista om kund = null
         }
-        return null;
+
     }
 
-    //Kund: Se tidigare bokningar.
-    @Override
-    public List<Booking> getPrevoiusBookingsByCustomer(Customer customer) {
-       //Todo Skapa en funktion för att kolla om bokningen är förbrukad med hjälp av datum
-        return null;
-    }
     //Admin: Ta bort en bokning
     @Override
     public void deleteBooking(int bookingId) {

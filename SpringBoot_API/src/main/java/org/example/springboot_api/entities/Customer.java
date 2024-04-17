@@ -1,5 +1,6 @@
 package org.example.springboot_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -23,7 +24,7 @@ public class Customer {
     @Column(length = 15)
     private String phone;
 
-    @JsonIgnoreProperties("customer")
+    @JsonIgnoreProperties("customers")
     @OneToMany(mappedBy = "customers", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Booking> bookingList;
 
