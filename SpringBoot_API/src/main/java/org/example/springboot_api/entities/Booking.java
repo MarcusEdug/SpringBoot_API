@@ -1,5 +1,6 @@
 package org.example.springboot_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -15,14 +16,12 @@ public class Booking {
     private LocalDate endDateOfBooking;
 
     @OneToOne
-    @JoinColumn(name = "car_id", nullable = false)
-    @JsonManagedReference
     @JsonIgnoreProperties("booking")
     private Car car;
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
-    @JsonIgnoreProperties("booking")
+    @JsonIgnoreProperties("bookingList")
     private Customer customers;
     private String status;
 
