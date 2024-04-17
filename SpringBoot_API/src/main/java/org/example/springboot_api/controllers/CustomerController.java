@@ -29,8 +29,8 @@ public class CustomerController {
 
 
     @PostMapping("/api/v1/ordercar")
-    public ResponseEntity<String> bookCar(LocalDate date, @RequestBody Customer customer, @RequestBody Car car){
-        bookingService.createBooking(date, car, customer);
+    public ResponseEntity<String> bookCar(@RequestBody Booking booking){
+        bookingService.createBooking(booking);
         return new ResponseEntity<>("Car ordered", HttpStatus.OK);
     }
 

@@ -9,10 +9,9 @@ import java.util.List;
 
 public interface BookingServiceInterface {
 
-    Booking createBooking(LocalDate dateOfBooking, Car car, Customer customer);
+    Booking createBooking(Booking booking);
     void cancelBooking(int bookingId);
     List<Booking> fetchAllBookings();
     List<Booking> getBookingsByCustomer(Customer customer);
-    List<Booking> getPrevoiusBookingsByCustomer(Customer customer);
     void deleteBooking(int bookingId);
 }
