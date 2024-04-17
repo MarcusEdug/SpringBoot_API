@@ -67,14 +67,12 @@ public class AdminController {
 
     @PutMapping("/updatecar")
     public ResponseEntity<Car> updateCar(@RequestBody Car existingCar){
-        int id = existingCar.getId();
-        return ResponseEntity.ok(carService.updateCar(id, existingCar));
+        return ResponseEntity.ok(carService.updateCar(existingCar));
     }
 
     @DeleteMapping("/deletecar")
     public ResponseEntity<String> deleteCar(@RequestBody Car existingCar) {
-        int id = existingCar.getId();
-        carService.deleteCar(id);
+        carService.deleteCar(existingCar.getId());
         return new ResponseEntity<>("Car deleted", HttpStatus.OK);
     }
 
