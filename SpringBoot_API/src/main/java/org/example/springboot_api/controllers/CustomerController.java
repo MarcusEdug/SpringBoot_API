@@ -1,51 +1,51 @@
 package org.example.springboot_api.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.springboot_api.entities.Booking;
+import org.example.springboot_api.entities.Car;
+import org.example.springboot_api.entities.Customer;
+import org.example.springboot_api.services.BookingService;
+import org.example.springboot_api.services.CarService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class CustomerController {
 
-    // @Autowired
-    // private CarService carService;
-    // @Autowired
-    // private BookingService bookingService;
+    @Autowired
+    private CarService carService;
+    @Autowired
+    private BookingService bookingService;
 
-    // Lista tillgängliga bilar - Get /api/v1/cars
+
     @GetMapping("/api/v1/cars")
-    public void getAllCars(){
-        // getAllCars()
-        // ResponseEntity<List<Car>>
-        // return ResponseEntity.ok(carService.fetchAllCars());
+    public ResponseEntity<List<Car>> getAllCars(){
+        return ResponseEntity.ok(carService.fetchAllCars());
     }
 
 
-    // Beställa hyrbil - Post /api/v1/ordercar
-    // Ta in den bil som ska läggas till i bokning
     @PostMapping("/api/v1/ordercar")
-    public void bookCar(){
-        // createBooking(date, car, customer)
-        // Returnera ?
+    public ResponseEntity<String> bookCar(LocalDate date, @RequestBody Customer customer, @RequestBody Car car){
+        bookingService.createBooking(date, car, customer);
+        return new ResponseEntity<>("Car ordered", HttpStatus.OK);
     }
 
 
-    // Avboka - Put /api/v1/cancelorder
-    // Ta in den order som ska tas bort från kunden
     @PutMapping("/api/v1/cancelorder")
-    public void cancelBooking(){
-        // cancelBooking(int bookingId)
-        // Returnera ?
+    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id){
+        bookingService.cancelBooking(id);
+        return new ResponseEntity<>("Order canceled", HttpStatus.OK);
     }
 
 
-    // Se tidigare och aktiva bokningar - Get /api/v1/myorders
     @GetMapping("/api/v1/myorders")
-    public void getBookings(){
-        // getBookingsByCustomer(customer)
-        // ResponseEntity<List<Booking>>
-        // return ResponseEntity.ok()
+    public ResponseEntity<List<Booking>> getBookings(@RequestBody Customer customer){
+        bookingService.getBookingsByCustomer(customer);
+        return ResponseEntity.ok(bookingService.getBookingsByCustomer(customer));
     }
 
 
