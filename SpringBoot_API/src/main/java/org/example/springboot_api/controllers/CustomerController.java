@@ -36,8 +36,8 @@ public class CustomerController {
 
 
     @PutMapping("/api/v1/cancelorder")
-    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id){
-        bookingService.cancelBooking(id);
+    public ResponseEntity<String> cancelBooking(@RequestBody Customer customer){
+        bookingService.cancelBooking(customer.getId());
         return new ResponseEntity<>("Order canceled", HttpStatus.OK);
     }
 
