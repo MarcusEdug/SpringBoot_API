@@ -20,7 +20,7 @@ public class Booking {
     private Car car;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnoreProperties("bookingList")
     private Customer customers;
     private String status;

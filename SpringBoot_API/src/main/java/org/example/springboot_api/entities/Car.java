@@ -19,7 +19,7 @@ public class Car {
     private int car_id;
 
     @Column (length = 10, nullable = false)
-    private int pricePerDay;
+    private double pricePerDay;
 
     @Column(length = 30, nullable = false)
     private String factory;
@@ -46,18 +46,18 @@ public class Car {
     public Car() {
     }
 
-    public Car(int id, int pirecePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus) {
+    public Car(int id, double pricePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus) {
         this.car_id = id;
-        this.pricePerDay = pirecePerDay;
+        this.pricePerDay = pricePerDay;
         this.factory = factory;
         this.model = modell;
         this.registrationNumber = registrationNumber;
         this.bookedStatus = bookedStatus;
     }
 
-    public Car(int id, int pirecePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus, Booking bookedInfo) {
+    public Car(int id, double pricePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus, Booking bookedInfo) {
         this.car_id = id;
-        this.pricePerDay = pirecePerDay;
+        this.pricePerDay = pricePerDay;
         this.factory = factory;
         this.model = modell;
         this.registrationNumber = registrationNumber;
@@ -74,12 +74,12 @@ public class Car {
         this.car_id = id;
     }
 
-    public int getPricePerDay() {
+    public double getPricePerDay() {
         return pricePerDay;
     }
 
-    public void setPricePerDay(int pirecePerDay) {
-        this.pricePerDay = pirecePerDay;
+    public void setPricePerDay(double pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 
     public String getFactory() {
