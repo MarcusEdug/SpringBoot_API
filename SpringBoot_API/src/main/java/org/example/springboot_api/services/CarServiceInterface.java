@@ -10,6 +10,7 @@ public interface CarServiceInterface {
 
     Car addCar(Car car);
     List<Car> fetchAllCars();
+    List<Car> fetchAllAvailableCars();
     Car updateCar(Car car);
     void deleteCar(int id);
 }

@@ -15,15 +15,16 @@ public class Booking {
     private LocalDate startDateOfBooking;
     private LocalDate endDateOfBooking;
 
-    @OneToOne
-    @JsonIgnoreProperties("booking")
+    @ManyToOne
+    @JoinColumn(name = "car_id", nullable = false)
+    @JsonIgnoreProperties({"booking", "bookedStatus"})
     private Car car;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnoreProperties("bookingList")
     private Customer customers;
-    private String status;
+    private Boolean status;
 
 
     public Booking(LocalDate dateOfBooking, Car car, Customer customers) {
@@ -68,11 +69,11 @@ public class Booking {
         this.customers = customers;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
