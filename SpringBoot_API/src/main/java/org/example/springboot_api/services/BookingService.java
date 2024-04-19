@@ -5,6 +5,7 @@ import org.example.springboot_api.entities.Car;
 import org.example.springboot_api.entities.Customer;
 import org.example.springboot_api.exceptions.ResourceNotFoundException;
 import org.example.springboot_api.repositories.BookingRepository;
+import org.example.springboot_api.repositories.CarRepository;
 import org.example.springboot_api.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,17 +24,40 @@ public class BookingService implements BookingServiceInterface {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private CarService carService;
+
+    private Car updateCar;
+
     //Kund: Skapa en bokning av bil
     @Override
     public Booking createBooking(Booking booking) {
-        booking.setStatus("Active");
-        return bookingRepository.save(booking);
+        if(!booking.getCar().isBookedStatus()) {
+            booking.setStatus(true);
+            updateCar = booking.getCar();
+            updateCar.setBookedStatus(true);
+            carService.updateCar(updateCar);
+            return bookingRepository.save(booking);
+        }
+        throw new ResourceNotFoundException("Bookning", "id", booking.getBookingId());
     }
 
     //Kund: Avboka
     @Override
-    public void cancelBooking(int bookingId) {
-        bookingRepository.deleteById(bookingId);
+    public void cancelBooking(Booking booking) {
+        Booking existningBooking = bookingRepository.findById(booking.getBookingId()).orElseThrow(() -> new ResourceNotFoundException("Booking", "id", booking.getBookingId()));
+        if(existningBooking.getStatus()) {
+            existningBooking.setStatus(false);
+
+            updateCar = existningBooking.getCar();
+            updateCar.setBookedStatus(false);
+            carService.updateCar(updateCar);
+
+            bookingRepository.save(existningBooking);
+        }
+        else {
+            throw new ResourceNotFoundException("Bookning", "id", booking.getBookingId());
+        }
     }
 
     //Admin: Se alla bokningar

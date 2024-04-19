@@ -10,7 +10,7 @@ import java.util.List;
 public interface BookingServiceInterface {
 
     Booking createBooking(Booking booking);
-    void cancelBooking(int bookingId);
+    void cancelBooking(Booking booking);
     List<Booking> fetchAllBookings();
     List<Booking> getBookingsByCustomer(Customer customer);
     void deleteBooking(int bookingId);

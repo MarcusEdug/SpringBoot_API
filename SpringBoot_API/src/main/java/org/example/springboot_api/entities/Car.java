@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 /*
     Klass är till för att skapa Cars objekt
     Den innehåller
@@ -32,14 +34,13 @@ public class Car {
 
 
     //För att se vad om den är bokad eller inte
-    private boolean bookedStatus = false;
+    private boolean bookedStatus;
 
     //Tar in bokning objektet
-    @OneToOne (mappedBy = "car", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinColumn(name = "car_id", nullable = false)
+    @OneToMany (mappedBy = "car", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("customers")
     @JsonIgnore
-    private Booking bookedInfo;
+    private List<Booking> bookedInfo;
 
 
     //Konstruktorer
@@ -55,11 +56,11 @@ public class Car {
         this.bookedStatus = bookedStatus;
     }
 
-    public Car(int id, double pricePerDay, String factory, String modell, String registrationNumber, boolean bookedStatus, Booking bookedInfo) {
-        this.car_id = id;
+    public Car(int car_id, double pricePerDay, String factory, String model, String registrationNumber, boolean bookedStatus, List<Booking> bookedInfo) {
+        this.car_id = car_id;
         this.pricePerDay = pricePerDay;
         this.factory = factory;
-        this.model = modell;
+        this.model = model;
         this.registrationNumber = registrationNumber;
         this.bookedStatus = bookedStatus;
         this.bookedInfo = bookedInfo;
@@ -114,15 +115,11 @@ public class Car {
         this.bookedStatus = bookedStatus;
     }
 
-    public Booking getBookedInfo() {
-        bookedStatus = true;
+    public List<Booking> getBookedInfo() {
         return bookedInfo;
     }
 
-    public void setBookedInfo(Booking bookedInfo) {
-        if (bookedInfo == null){
-            bookedStatus = false;
-        }
+    public void setBookedInfo(List<Booking> bookedInfo) {
         this.bookedInfo = bookedInfo;
     }
 }

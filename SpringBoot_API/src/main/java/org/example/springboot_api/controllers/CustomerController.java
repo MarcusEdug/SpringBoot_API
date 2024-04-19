@@ -24,7 +24,7 @@ public class CustomerController {
 
     @GetMapping("/api/v1/cars")
     public ResponseEntity<List<Car>> getAllCars(){
-        return ResponseEntity.ok(carService.fetchAllCars());
+        return ResponseEntity.ok(carService.fetchAllAvailableCars());
     }
 
 
@@ -36,8 +36,8 @@ public class CustomerController {
 
 
     @PutMapping("/api/v1/cancelorder")
-    public ResponseEntity<String> cancelBooking(@RequestBody Customer customer){
-        bookingService.cancelBooking(customer.getId());
+    public ResponseEntity<String> cancelBooking(@RequestBody Booking booking){
+        bookingService.cancelBooking(booking);
         return new ResponseEntity<>("Order canceled", HttpStatus.OK);
     }
 
