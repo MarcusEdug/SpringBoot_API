@@ -73,15 +73,10 @@ public class CarService implements CarServiceInterface {
     }
 
     @Override
-    public String deleteCar(int id) {
+    public void deleteCar(int id) {
         Car car = carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car", "id", id));
-        if(carRepository.findById(id).isPresent()){
-            carRepository.deleteById(id);
-            logger.info("Admin deleted car with registration number " + car.getRegistrationNumber() + " successfully");
-            return "Car deleted successfully";
-        } else {
-            return "Car not found";
-        }
+        carRepository.deleteById(id);
+        logger.info("Admin deleted car with registration number " + car.getRegistrationNumber() + " successfully");
 
     }
 }
