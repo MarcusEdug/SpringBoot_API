@@ -102,7 +102,6 @@ public class BookingService implements BookingServiceInterface {
     //Admin: Ta bort en bokning
     @Override
     public void deleteBooking(int bookingId) {
-        bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking", "id", bookingId));
         bookingRepository.deleteById(bookingId);
         logger.info("Admin deleted booking with id " + bookingId);
     }

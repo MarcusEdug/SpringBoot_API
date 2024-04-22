@@ -72,8 +72,7 @@ public class AdminController {
 
     @DeleteMapping("/deletecar")
     public ResponseEntity<String> deleteCar(@RequestBody Car existingCar) {
-        carService.deleteCar(existingCar.getCar_id());
-        return new ResponseEntity<>("Car deleted", HttpStatus.OK);
+        return new ResponseEntity<>(carService.deleteCar(existingCar.getCar_id()), HttpStatus.OK);
     }
 
     //Orders
