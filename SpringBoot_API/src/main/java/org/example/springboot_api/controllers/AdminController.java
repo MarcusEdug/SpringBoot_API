@@ -87,6 +87,6 @@ public class AdminController {
     public ResponseEntity<String> deleteOrder(@RequestBody Booking existingBooking){
         int id = existingBooking.getBookingId();
         bookingService.deleteBooking(id);
-        return new ResponseEntity<>("Order deletet", HttpStatus.OK);
+        return new ResponseEntity<>("Order deleted", HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package org.example.springboot_api.services;
 
+import org.apache.log4j.Logger;
 import org.example.springboot_api.entities.Booking;
 import org.example.springboot_api.entities.Car;
 import org.example.springboot_api.entities.Customer;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @Service
 public class BookingService implements BookingServiceInterface {
 
+    private static final Logger logger = Logger.getLogger(BookingService.class);
     @Autowired
     private BookingRepository bookingRepository;
 
@@ -37,9 +40,11 @@ public class BookingService implements BookingServiceInterface {
             updateCar = booking.getCar();
             updateCar.setBookedStatus(true);
             carService.updateCar(updateCar);
-            return bookingRepository.save(booking);
+            bookingRepository.save(booking);
+            logger.info("Customer created booking with id " + booking.getBookingId());
+            return booking;
         }
-        throw new ResourceNotFoundException("Bookning", "id", booking.getBookingId());
+        throw new ResourceNotFoundException("Booking", "id", booking.getBookingId());
     }
 
     //Kund: Avboka
@@ -54,9 +59,10 @@ public class BookingService implements BookingServiceInterface {
             carService.updateCar(updateCar);
 
             bookingRepository.save(existningBooking);
+            logger.info("Customer canceled booking with id " + booking.getBookingId());
         }
         else {
-            throw new ResourceNotFoundException("Bookning", "id", booking.getBookingId());
+            throw new ResourceNotFoundException("Booking", "id", booking.getBookingId());
         }
     }
 
@@ -96,6 +102,8 @@ public class BookingService implements BookingServiceInterface {
     //Admin: Ta bort en bokning
     @Override
     public void deleteBooking(int bookingId) {
+        bookingRepository.findById(bookingId).orElseThrow(() -> new ResourceNotFoundException("Booking", "id", bookingId));
         bookingRepository.deleteById(bookingId);
+        logger.info("Admin deleted booking with id " + bookingId);
     }
 }
