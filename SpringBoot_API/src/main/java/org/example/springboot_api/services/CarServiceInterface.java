@@ -12,5 +12,5 @@ public interface CarServiceInterface {
     List<Car> fetchAllCars();
     List<Car> fetchAllAvailableCars();
     Car updateCar(Car car);
-    void deleteCar(int id);
+    String deleteCar(int id);
 }
