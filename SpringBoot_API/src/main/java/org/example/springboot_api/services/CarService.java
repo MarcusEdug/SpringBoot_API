@@ -1,7 +1,6 @@
 package org.example.springboot_api.services;
 
 
-import org.apache.log4j.Logger;
 import org.example.springboot_api.entities.Car;
 import org.example.springboot_api.exceptions.ResourceNotFoundException;
 import org.example.springboot_api.repositories.CarRepository;
@@ -15,16 +14,12 @@ import java.util.List;
 @Service
 public class CarService implements CarServiceInterface {
 
-    private static final Logger logger = Logger.getLogger(CarService.class);
     @Autowired
     private CarRepository carRepository;
 
     @Override
     public Car addCar(Car car) {
-        carRepository.save(car);
-        logger.info("Admin added new car" + " " + car.getRegistrationNumber());
-        return car;
-
+        return carRepository.save(car);
     }
 
     @Override
@@ -65,16 +60,14 @@ public class CarService implements CarServiceInterface {
         existingCar.setBookedStatus(car.isBookedStatus());
 
 
+
         carRepository.save(existingCar);
-        logger.info("Admin updated car with registration number " + existingCar.getRegistrationNumber() + " successfully");
         return existingCar;
     }
 
     @Override
     public void deleteCar(int id) {
-        Car car = carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car", "id", id));
+        carRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car", "id", id));
         carRepository.deleteById(id);
-        logger.info("Admin deleted car with registration number " + car.getRegistrationNumber() + " successfully");
-
     }
 }

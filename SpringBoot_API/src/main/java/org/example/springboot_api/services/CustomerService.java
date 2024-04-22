@@ -1,6 +1,5 @@
 package org.example.springboot_api.services;
 
-import org.apache.log4j.Logger;
 import org.example.springboot_api.entities.Customer;
 import org.example.springboot_api.exceptions.ResourceNotFoundException;
 import org.example.springboot_api.repositories.CustomerRepository;
@@ -12,8 +11,6 @@ import java.util.List;
 @Service
 public class CustomerService implements CustomerServiceInterface{
 
-    private static final Logger logger = Logger.getLogger(CustomerService.class);
-
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -24,24 +21,18 @@ public class CustomerService implements CustomerServiceInterface{
 
     @Override
     public Customer addCustomer(Customer customer) {
-        customerRepository.save(customer);
-        logger.info("Admin added customer with id " + customer.getId());
-
-        return customer;
+        return customerRepository.save(customer);
     }
 
     @Override
     public Customer updateCustomer(int id, Customer customer) {
-        customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer", "id", id));
-        customerRepository.save(customer);
-        logger.info("Admin updated customer with id " + customer.getId());
-        return customer;
+        Customer exsistingCustomer = customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer", "id", id));
+        return customerRepository.save(customer);
     }
 
     @Override
     public void deleteCustomerById(int id) {
         customerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Customer", "id", id));
         customerRepository.deleteById(id);
-        logger.info("Admin deleted customer with id " + id);
     }
 }
