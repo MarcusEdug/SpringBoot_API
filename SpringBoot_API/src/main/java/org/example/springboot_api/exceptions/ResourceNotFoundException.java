@@ -10,7 +10,6 @@ public class ResourceNotFoundException extends RuntimeException {
     private String field;
     private Object value;
 
-    // Constructor
     public ResourceNotFoundException(String name, String field, Object value) {
         super(String.format("%s with %s '%s' was not found", name, field, value));
         this.name = name;
@@ -18,7 +17,6 @@ public class ResourceNotFoundException extends RuntimeException {
         this.value = value;
     }
 
-    // Getters
     public String getItem() {
         return name;
     }

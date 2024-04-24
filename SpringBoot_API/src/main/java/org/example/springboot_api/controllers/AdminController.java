@@ -9,11 +9,8 @@ import org.example.springboot_api.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -27,8 +24,6 @@ public class AdminController {
 
     @Autowired
     private CustomerService customerService;
-
-    //Customers
 
     @GetMapping("/customers")
     public List<Customer> fetchAllCustomer(){
@@ -53,8 +48,6 @@ public class AdminController {
         return new ResponseEntity<>("Customer deleted", HttpStatus.OK);
     }
 
-    //Cars
-
     @PostMapping("/addcar")
     public ResponseEntity<Car> addCar(@RequestBody Car car){
         return new ResponseEntity<>(carService.addCar(car), HttpStatus.CREATED);
@@ -76,8 +69,6 @@ public class AdminController {
         return new ResponseEntity<>("Car deleted", HttpStatus.OK);
     }
 
-    //Orders
-
     @GetMapping("/orders")
     public List<Booking> fetchAllBookings(){
         return bookingService.fetchAllBookings();
@@ -87,6 +78,6 @@ public class AdminController {
     public ResponseEntity<String> deleteOrder(@RequestBody Booking existingBooking){
         int id = existingBooking.getBookingId();
         bookingService.deleteBooking(id);
-        return new ResponseEntity<>("Order deletet", HttpStatus.OK);
+        return new ResponseEntity<>("Order deleted", HttpStatus.OK);
     }
 }

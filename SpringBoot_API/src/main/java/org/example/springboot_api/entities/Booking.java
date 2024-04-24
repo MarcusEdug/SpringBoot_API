@@ -1,10 +1,7 @@
 package org.example.springboot_api.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -24,7 +21,7 @@ public class Booking {
     @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnoreProperties("bookingList")
     private Customer customers;
-    private Boolean status;
+    private Boolean IsActive;
 
 
     public Booking(LocalDate dateOfBooking, Car car, Customer customers) {
@@ -34,7 +31,6 @@ public class Booking {
     }
 
     public Booking() {
-
     }
 
     public int getBookingId() {
@@ -69,12 +65,12 @@ public class Booking {
         this.customers = customers;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean getIsActive() {
+        return IsActive;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setIsActive(Boolean status) {
+        this.IsActive = status;
     }
 
     public LocalDate getEndDateOfBooking() {

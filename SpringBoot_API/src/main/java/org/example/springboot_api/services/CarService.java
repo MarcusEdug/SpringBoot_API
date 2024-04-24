@@ -3,10 +3,8 @@ package org.example.springboot_api.services;
 
 import org.apache.log4j.Logger;
 import org.example.springboot_api.entities.Car;
-import org.example.springboot_api.entities.Customer;
 import org.example.springboot_api.exceptions.ResourceNotFoundException;
 import org.example.springboot_api.repositories.CarRepository;
-import org.example.springboot_api.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +36,7 @@ public class CarService implements CarServiceInterface {
     public List<Car> fetchAllAvailableCars() {
         List<Car> availableCar = new ArrayList<>();
         for (Car c : carRepository.findAll()) {
-            if(!c.isBookedStatus()){
+            if(!c.isIsAvailable()){
                 availableCar.add(c);
             }
         }
@@ -64,7 +62,7 @@ public class CarService implements CarServiceInterface {
             existingCar.setBookedInfo(car.getBookedInfo());
         }
 
-        existingCar.setBookedStatus(car.isBookedStatus());
+        existingCar.setIsAvailable(car.isIsAvailable());
 
 
         carRepository.save(existingCar);

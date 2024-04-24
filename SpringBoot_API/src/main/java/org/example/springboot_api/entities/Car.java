@@ -6,13 +6,6 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-/*
-    Klass är till för att skapa Cars objekt
-    Den innehåller
-    7st variablar
-    2st Konstruktorer
-
- */
 
 @Entity
 public class Car {
@@ -32,18 +25,13 @@ public class Car {
     @Column(length = 15, nullable = false)
     private String registrationNumber;
 
+    private boolean IsAvailable = false;
 
-    //För att se vad om den är bokad eller inte
-    private boolean bookedStatus;
-
-    //Tar in bokning objektet
     @OneToMany (mappedBy = "car", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("customers")
     @JsonIgnore
     private List<Booking> bookedInfo;
 
-
-    //Konstruktorer
     public Car() {
     }
 
@@ -53,7 +41,7 @@ public class Car {
         this.factory = factory;
         this.model = modell;
         this.registrationNumber = registrationNumber;
-        this.bookedStatus = bookedStatus;
+        this.IsAvailable = bookedStatus;
     }
 
     public Car(int car_id, double pricePerDay, String factory, String model, String registrationNumber, boolean bookedStatus, List<Booking> bookedInfo) {
@@ -62,11 +50,10 @@ public class Car {
         this.factory = factory;
         this.model = model;
         this.registrationNumber = registrationNumber;
-        this.bookedStatus = bookedStatus;
+        this.IsAvailable = bookedStatus;
         this.bookedInfo = bookedInfo;
     }
 
-    //Getters and Setters
     public int getCar_id() {
         return car_id;
     }
@@ -107,12 +94,12 @@ public class Car {
         this.registrationNumber = registrationNumber;
     }
 
-    public boolean isBookedStatus() {
-        return bookedStatus;
+    public boolean isIsAvailable() {
+        return IsAvailable;
     }
 
-    public void setBookedStatus(boolean bookedStatus) {
-        this.bookedStatus = bookedStatus;
+    public void setIsAvailable(boolean bookedStatus) {
+        this.IsAvailable = bookedStatus;
     }
 
     public List<Booking> getBookedInfo() {
