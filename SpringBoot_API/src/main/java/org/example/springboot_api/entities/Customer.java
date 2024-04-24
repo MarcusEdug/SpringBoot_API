@@ -3,9 +3,6 @@ package org.example.springboot_api.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -14,7 +11,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // Attributes
     @Column(length = 40, nullable = false)
     private String userName;
     @Column(length = 80, nullable = false)
@@ -31,8 +27,6 @@ public class Customer {
     @OneToMany(mappedBy = "customers", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Booking> bookingList;
 
-
-    // Constructors
     public Customer() {
     }
 
@@ -45,7 +39,6 @@ public class Customer {
         this.bookingList = bookingList;
     }
 
-    // Getters & Setters
     public int getId() {
         return id;
     }

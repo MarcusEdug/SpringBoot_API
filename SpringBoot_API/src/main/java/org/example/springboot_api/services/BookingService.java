@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.example.springboot_api.entities.Booking;
 import org.example.springboot_api.entities.Car;
 import org.example.springboot_api.entities.Customer;
+import org.example.springboot_api.exceptions.ResourceNotAvailableException;
 import org.example.springboot_api.exceptions.ResourceNotFoundException;
 import org.example.springboot_api.repositories.BookingRepository;
 import org.example.springboot_api.repositories.CarRepository;
@@ -11,7 +12,6 @@ import org.example.springboot_api.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -27,34 +27,39 @@ public class BookingService implements BookingServiceInterface {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private CarRepository carRepository;
+
+    @Autowired
     private CarService carService;
 
     private Car updateCar;
 
-    //Kund: Skapa en bokning av bil
+
     @Override
     public Booking createBooking(Booking booking) {
-        if(!booking.getCar().isBookedStatus()) {
-            booking.setStatus(true);
+        Car existningCar = carRepository.findById(booking.getCar().getCar_id()).orElseThrow(() -> new ResourceNotFoundException("Car", "id", booking.getCar().getCar_id()));
+        if(!existningCar.isIsAvailable()) {
+            booking.setIsActive(true);
+
             updateCar = booking.getCar();
-            updateCar.setBookedStatus(true);
+            updateCar.setIsAvailable(true);
             carService.updateCar(updateCar);
             bookingRepository.save(booking);
+
             logger.info("Customer created booking with id " + booking.getBookingId());
             return booking;
         }
-        throw new ResourceNotFoundException("Booking", "id", booking.getBookingId());
+        throw new ResourceNotAvailableException("Booking", "id", booking.getBookingId());
     }
 
-    //Kund: Avboka
     @Override
     public void cancelBooking(Booking booking) {
         Booking existningBooking = bookingRepository.findById(booking.getBookingId()).orElseThrow(() -> new ResourceNotFoundException("Booking", "id", booking.getBookingId()));
-        if(existningBooking.getStatus()) {
-            existningBooking.setStatus(false);
+        if(existningBooking.getIsActive()) {
+            existningBooking.setIsActive(false);
 
             updateCar = existningBooking.getCar();
-            updateCar.setBookedStatus(false);
+            updateCar.setIsAvailable(false);
             carService.updateCar(updateCar);
 
             bookingRepository.save(existningBooking);
@@ -65,13 +70,12 @@ public class BookingService implements BookingServiceInterface {
         }
     }
 
-    //Admin: Se alla bokningar
     @Override
     public List<Booking> fetchAllBookings() {
         return bookingRepository.findAll();
     }
 
-    //Kund: Se aktiva/tidigare bokningar
+
     @Override
     public List<Booking> getBookingsByCustomer(Customer customer) {
         Customer existingCustomer = customerRepository.findById(customer.getId()).orElseThrow(() -> new ResourceNotFoundException("Car", "id", customer.getId()));
@@ -93,12 +97,11 @@ public class BookingService implements BookingServiceInterface {
 
 
         } else {
-            return Collections.emptyList(); //Returnerar en tom lista om kund = null
+            return Collections.emptyList();
         }
 
     }
 
-    //Admin: Ta bort en bokning
     @Override
     public void deleteBooking(int bookingId) {
         bookingRepository.deleteById(bookingId);
